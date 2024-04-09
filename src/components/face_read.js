@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 const FaceRead = () => {
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
-  const [skinColor, setSkinColor] = useState('#ffffff');
-  const [hairColor, setHairColor] = useState('#ffffff');
-  const [eyeColor, setEyeColor] = useState('#ffffff');
+  const [skinColor, setSkinColor] = useState('#000000');
+  const [hairColor, setHairColor] = useState('#000000');
+  const [eyeColor, setEyeColor] = useState('#000000');
   const [borderStyle, setBorderStyle] = useState('2px solid black');
 
   const handleImageUpload = () => {
@@ -68,6 +68,19 @@ const FaceRead = () => {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
   };
 
+  const getContrastColor = (color) => {
+    // Convert hex color to RGB
+    let r = parseInt(color.substr(1, 2), 16);
+    let g = parseInt(color.substr(3, 2), 16);
+    let b = parseInt(color.substr(5, 2), 16);
+
+    // Calculate relative luminance
+    let luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+
+    // Return black for light colors, and white for dark colors
+    return luminance > 0.5 ? '#000000' : '#ffffff';
+  };
+
   return (
     <div>
       <button onClick={handleImageUpload}>Upload Image</button>
@@ -93,7 +106,8 @@ const FaceRead = () => {
               style={{
                 backgroundColor: skinColor,
                 border: selectedColor === 'skin' ? `${borderStyle}` : '2px solid black',
-                fontWeight: selectedColor === 'skin' ? 'bold' : 'normal'
+                fontWeight: selectedColor === 'skin' ? 'bold' : 'normal',
+                color: getContrastColor(skinColor)
               }}
               onClick={() => handleColorSelection('skin')}
             >
@@ -107,7 +121,8 @@ const FaceRead = () => {
               style={{
                 backgroundColor: hairColor,
                 border: selectedColor === 'hair' ? `${borderStyle}` : '2px solid black',
-                fontWeight: selectedColor === 'hair' ? 'bold' : 'normal'
+                fontWeight: selectedColor === 'hair' ? 'bold' : 'normal',
+                color: getContrastColor(hairColor)
               }}
               onClick={() => handleColorSelection('hair')}
             >
@@ -121,7 +136,8 @@ const FaceRead = () => {
               style={{
                 backgroundColor: eyeColor,
                 border: selectedColor === 'eye' ? `${borderStyle}` : '2px solid black',
-                fontWeight: selectedColor === 'eye' ? 'bold' : 'normal'
+                fontWeight: selectedColor === 'eye' ? 'bold' : 'normal',
+                color: getContrastColor(eyeColor)
               }}
               onClick={() => handleColorSelection('eye')}
             >

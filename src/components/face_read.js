@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useOpenAI from '../hooks/useOpenAI.js';
 
 const FaceRead = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -28,6 +29,8 @@ const FaceRead = () => {
 
     fileInput.click();
   };
+
+  const askQuestion = useOpenAI();
 
   const handleColorSelection = (color) => {
     setSelectedColor(color);
@@ -67,6 +70,10 @@ const FaceRead = () => {
   const rgbToHex = (r, g, b) => {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
   };
+
+  const handleClick = () => {
+    askQuestion(skinColor, hairColor, eyeColor);
+};
 
   const getContrastColor = (color) => {
     // Convert hex color to RGB
@@ -146,7 +153,9 @@ const FaceRead = () => {
             <span style={{ marginLeft: '10px' }}>{eyeColor}</span>
           </div>
         </div>
+        
       )}
+<button onClick={handleClick} style={{ marginTop: '30px', backgroundColor: "#000000", color: "#ffffff", height: "50px", width: "250px"}}>Analyze</button>
     </div>
   );
 };

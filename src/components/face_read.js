@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import useOpenAI from '../hooks/useOpenAI';
 
 const FaceRead = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -8,6 +9,8 @@ const FaceRead = () => {
   const [eyeColor, setEyeColor] = useState('#000000');
   const [lipColor, setLipColor] = useState('#000000');
   const [borderStyle, setBorderStyle] = useState('2px solid black');
+  const [analysisResults, setAnalysisResults] = useState([]);
+  const askQuestion = useOpenAI();
 
   const handleImageUpload = () => {
     // once user uploads new image, reset all buttons to black again
@@ -88,9 +91,25 @@ const FaceRead = () => {
     return luminance > 0.5 ? '#000000' : '#ffffff';
   };
 
-  const handleAnalyze = () => {
-    /* TOOD */
-  };
+//   const handleAnalyze = async () => {
+//     try {
+//       const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
+//       responses.forEach((response, index) => {
+//         console.log(`Response ${index + 1}:`, response);
+//       });
+//     } catch (error) {
+//       console.error('Error analyzing colors:', error);
+//     }
+//   };
+
+    const handleAnalyze = async () => {
+        try {
+        const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
+        setAnalysisResults(responses); // Set analysis results to state
+        } catch (error) {
+        console.error('Error analyzing colors:', error);
+        }
+    };
 
   return (
     <div>
@@ -183,6 +202,15 @@ const FaceRead = () => {
           </div>
 
           <button onClick={handleAnalyze} style={{ marginTop: '30px', backgroundColor: "#000000", color: "#ffffff", height: "50px", width: "250px"}}>Analyze</button>
+        
+          {/* Display analysis results */}
+          <div style={{ marginTop: '20px' }}>
+            <h3>Analysis Results:</h3>
+            {analysisResults.map((result, index) => (
+              <p key={index}>{result}</p>
+            ))}
+          </div>
+        
         </div>
       )}
     </div>

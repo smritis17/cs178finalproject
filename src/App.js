@@ -10,7 +10,7 @@ function App() {
       </div>
       <div className="flex-container">
         <div className="column section">
-          <div className="routes-title text-left">Update Photo and Choose Colors</div>
+          <div className="routes-title text-left"><h3>Update Photo and Choose Colors</h3></div>
           <div className="scrollable">
             <FaceRead />
           </div>

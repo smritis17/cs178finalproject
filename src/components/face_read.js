@@ -1,9 +1,136 @@
-import React from "react";
+import React, { useState } from 'react';
 
 const FaceRead = () => {
+  const [imagePreview, setImagePreview] = useState(null);
+  const [selectedColor, setSelectedColor] = useState(null);
+  const [skinColor, setSkinColor] = useState('#ffffff');
+  const [hairColor, setHairColor] = useState('#ffffff');
+  const [eyeColor, setEyeColor] = useState('#ffffff');
+  const [borderStyle, setBorderStyle] = useState('2px solid black');
+
+  const handleImageUpload = () => {
+    const fileInput = document.createElement('input');
+    fileInput.setAttribute('type', 'file');
+    fileInput.setAttribute('accept', 'image/*');
+
+    fileInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      const reader = new FileReader();
+
+      reader.onload = function(event) {
+        setImagePreview(event.target.result);
+      }
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    });
+
+    fileInput.click();
+  };
+
+  const handleColorSelection = (color) => {
+    setSelectedColor(color);
+    setBorderStyle('2px solid black');
+  };
+
+  const handleImageClick = (event) => {
+    if (!selectedColor) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = event.target.width;
+    canvas.height = event.target.height;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(event.target, 0, 0, canvas.width, canvas.height);
+
+    const pixelData = ctx.getImageData(event.nativeEvent.offsetX, event.nativeEvent.offsetY, 1, 1).data;
+    const hexColor = rgbToHex(pixelData[0], pixelData[1], pixelData[2]);
+
+    switch (selectedColor) {
+      case 'skin':
+        setSkinColor(hexColor);
+        break;
+      case 'hair':
+        setHairColor(hexColor);
+        break;
+      case 'eye':
+        setEyeColor(hexColor);
+        break;
+      default:
+        break;
+    }
+
+    setSelectedColor(null);
+    setBorderStyle('none');
+  };
+
+  const rgbToHex = (r, g, b) => {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  };
+
   return (
-    <div style={{ backgroundColor: "blue", height: "200px" }}>
-      {/* This will display a blue block */}
+    <div>
+      <button onClick={handleImageUpload}>Upload Image</button>
+      {imagePreview && (
+        <div>
+          <h3>Selected Image:</h3>
+          <img
+            src={imagePreview}
+            alt="Uploaded"
+            style={{ maxWidth: '100%', maxHeight: '300px', cursor: selectedColor ? 'crosshair' : 'auto' }}
+            onClick={handleImageClick}
+          />
+
+          {/* instructions on how to choose skin, hair, and eye colors */}
+          <div style={{ marginTop: '10px' }}>
+            <p> Click each button and click on the corresponding body part in the photo to color pick. </p>
+          </div>
+
+          {/* buttons to choose skin, hair, and eye colors */}
+          <div style={{ marginTop: '10px' }}>
+            <button
+              className="color-button"
+              style={{
+                backgroundColor: skinColor,
+                border: selectedColor === 'skin' ? `${borderStyle}` : '2px solid black',
+                fontWeight: selectedColor === 'skin' ? 'bold' : 'normal'
+              }}
+              onClick={() => handleColorSelection('skin')}
+            >
+              Skin Color
+            </button>
+            <span style={{ marginLeft: '10px' }}>{skinColor}</span>
+          </div>
+          <div style={{ marginTop: '10px' }}>
+            <button
+              className="color-button"
+              style={{
+                backgroundColor: hairColor,
+                border: selectedColor === 'hair' ? `${borderStyle}` : '2px solid black',
+                fontWeight: selectedColor === 'hair' ? 'bold' : 'normal'
+              }}
+              onClick={() => handleColorSelection('hair')}
+            >
+              Hair Color
+            </button>
+            <span style={{ marginLeft: '10px' }}>{hairColor}</span>
+          </div>
+          <div style={{ marginTop: '10px' }}>
+            <button
+              className="color-button"
+              style={{
+                backgroundColor: eyeColor,
+                border: selectedColor === 'eye' ? `${borderStyle}` : '2px solid black',
+                fontWeight: selectedColor === 'eye' ? 'bold' : 'normal'
+              }}
+              onClick={() => handleColorSelection('eye')}
+            >
+              Eye Color
+            </button>
+            <span style={{ marginLeft: '10px' }}>{eyeColor}</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

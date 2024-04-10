@@ -1,32 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
 
-// const ColorAnalysis = () => {
-//   return (
-//     <div style={{ backgroundColor: "green", height: "200px" }}>
-//       {/* This will display a green block */}
-//     </div>
-//   );
-// };
+const ColorAnalysis = () => {
+  const [analysisResults, setAnalysisResults] = useState([]);
 
-const ColorAnalysis = ({ skinColor, hairColor, eyeColor }) => {
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const storedResults = localStorage.getItem('analysisResults');
+      if (storedResults) {
+        setAnalysisResults(JSON.parse(storedResults));
+      }
+    }, 1000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
-    <div>
-      <h2>Color Analysis Results</h2>
-      <div>
-        <h3>Skin Color:</h3>
-        <p>{skinColor}</p>
-      </div>
-      <div>
-        <h3>Hair Color:</h3>
-        <p>{hairColor}</p>
-      </div>
-      <div>
-        <h3>Eye Color:</h3>
-        <p>{eyeColor}</p>
-      </div>
+    <div style={{ marginLeft: '20px'}}>
+      <h3>Analysis Results:</h3>
+      {analysisResults.length === 0 ? (
+        <p>No analysis results found.</p>
+      ) : (
+        analysisResults.map((result, index) => (
+          <p key={index}>{result}</p>
+        ))
+      )}
     </div>
   );
 };
 
 export default ColorAnalysis;
-

@@ -7,16 +7,16 @@ const useOpenAI = () => {
             // const openai = new OpenAI("key");
 
             const openai = new OpenAI({
-                organization: 'ORG_KEY_HERE', 
-                apiKey: 'API_KEY_HERE',
+                organization: 'org-x7LE1EOortseNW98HPCIMzye', 
+                apiKey: process.env.REACT_APP_OPENAI_API_KEY,
                 dangerouslyAllowBrowser: true,
             });
 
             // Questions
             const questions = [
-                `Given that I have ${skinColor} skin color, ${hairColor} hair color, and ${eyeColor} eye color, what seasonal color am I?`,
-                "What are the top 5 colors that suit me best and give me those hex colors in a list format ex. {color 1, color 2, color 3, etc}",
-                "What are the worst 5 colors that I should avoid and give me those hex colors in a list format ex. {color1, color2, color3, etc}"
+                "Given that I have ${skinColor} skin color, ${hairColor} hair color, and ${eyeColor} eye color, what season am I? Give it to me in one word.",
+                "What are the top 5 colors that suit me best and give me those hex colors in a list format ex. [color 1, color 2, color 3, color4, color5]. Do not output anything else.",
+                "What are the worst 5 colors that I should avoid and give me those hex colors in a list format ex. [color 1, color 2, color 3, color4, color5]. Do not output anything else."
             ];
 
             // Responses

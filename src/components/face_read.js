@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import useOpenAI from '../hooks/useOpenAI';
+import ColorAnalysis from './color_analysis';
+
+// initialize local storage json to empty
+localStorage.setItem('analysisResults', '');
 
 const FaceRead = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -91,25 +95,27 @@ const FaceRead = () => {
     return luminance > 0.5 ? '#000000' : '#ffffff';
   };
 
-//   const handleAnalyze = async () => {
-//     try {
-//       const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
-//       responses.forEach((response, index) => {
-//         console.log(`Response ${index + 1}:`, response);
-//       });
-//     } catch (error) {
-//       console.error('Error analyzing colors:', error);
-//     }
-//   };
+
+    // const handleAnalyze = async () => {
+    //     try {
+    //     const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
+    //     console.log(responses);
+    //     setAnalysisResults(responses);
+    //     } catch (error) {
+    //     console.error('Error analyzing colors:', error);
+    //     }
+    // };
 
     const handleAnalyze = async () => {
         try {
-        const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
-        setAnalysisResults(responses); // Set analysis results to state
+          const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
+          console.log(responses);
+          // Save analysisResults to localStorage
+          localStorage.setItem('analysisResults', JSON.stringify(responses));
         } catch (error) {
-        console.error('Error analyzing colors:', error);
+          console.error('Error analyzing colors:', error);
         }
-    };
+      };
 
   return (
     <div>
@@ -202,15 +208,7 @@ const FaceRead = () => {
           </div>
 
           <button onClick={handleAnalyze} style={{ marginTop: '30px', backgroundColor: "#000000", color: "#ffffff", height: "50px", width: "250px"}}>Analyze</button>
-        
-          {/* Display analysis results */}
-          <div style={{ marginTop: '20px' }}>
-            <h3>Analysis Results:</h3>
-            {analysisResults.map((result, index) => (
-              <p key={index}>{result}</p>
-            ))}
-          </div>
-        
+          {/* <ColorAnalysis /> */}
         </div>
       )}
     </div>

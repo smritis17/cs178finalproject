@@ -16,7 +16,7 @@ function App() {
           </div>
         </div>
         <div className="column section">
-          <div className="routes-title text-left">Here's Your Color Analysis</div>
+          {/* <div className="routes-title text-left">Here's Your Color Analysis</div> */}
           <Analysis />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import OpenAI from 'openai';
 
 const useOpenAI = () => {
-    const askQuestion = async (skinColor, hairColor, eyeColor) => {
+    const askQuestion = async (skinColor, hairColor, eyeColor, lipColor) => {
         try {
             // Initialize the OpenAI API with your API key
             // const openai = new OpenAI("key");
@@ -14,10 +14,14 @@ const useOpenAI = () => {
 
             // Questions
             const questions = [
-                "Given that I have ${skinColor} skin color, ${hairColor} hair color, and ${eyeColor} eye color, what season am I? Give it to me in one word.",
+                `Given that I have ${skinColor} skin color, ${hairColor} hair color, ${eyeColor} eye color, and ${lipColor} lip color, what season am I? Give it to me in one word.`,
                 "What are the top 5 colors that suit me best and give me those hex colors in a list format ex. [color 1, color 2, color 3, color4, color5]. Do not output anything else.",
                 "What are the worst 5 colors that I should avoid and give me those hex colors in a list format ex. [color 1, color 2, color 3, color4, color5]. Do not output anything else."
             ];
+            console.log('skin color: ', skinColor);
+            console.log('hair color: ', hairColor);
+            console.log('eye color: ', eyeColor);
+            console.log('lip color: ', lipColor);
 
             // Responses
             const responses = [];

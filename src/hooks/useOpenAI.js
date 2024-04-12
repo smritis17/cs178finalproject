@@ -8,15 +8,15 @@ const useOpenAI = () => {
 
             const openai = new OpenAI({
                 organization: 'org-x7LE1EOortseNW98HPCIMzye', 
-                apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+                apiKey: 'INSERT_API_KEY',
                 dangerouslyAllowBrowser: true,
             });
 
             // Questions
             const questions = [
-                `Given that I have ${skinColor} skin color, ${hairColor} hair color, ${eyeColor} eye color, and ${lipColor} lip color, what season am I? Give it to me in one word.`,
-                "What are the top 5 colors that suit me best and give me those hex colors in a list format ex. [color 1, color 2, color 3, color4, color5]. Do not output anything else.",
-                "What are the worst 5 colors that I should avoid and give me those hex colors in a list format ex. [color 1, color 2, color 3, color4, color5]. Do not output anything else."
+                "Based on my complexion with ${skinColor} skin, ${hairColor} hair, ${eyeColor} eyes, and ${lipColor} lips, which season best describes my seasonal color palette? Sum it up in two words. ex. Warm Autumn",
+"Could you provide me with the top 5 colors to wear that complement my appearance? Please list them in hexadecimal format like this: #000000, #000000, #000000 , #000000, #000000 . Exclude any additional information.",
+"What are the least flattering colors for me to wear? I'd like to avoid them. Can you list the bottom 5 colors in hexadecimal format like the following: #000000, #000000, #000000 , #000000, #000000 . Omit any other details."
             ];
             console.log('skin color: ', skinColor);
             console.log('hair color: ', hairColor);

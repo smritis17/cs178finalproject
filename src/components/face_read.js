@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import useOpenAI from '../hooks/useOpenAI';
-import ColorAnalysis from './color_analysis';
 
-// initialize local storage json to empty
+// Initialize local storage JSON to empty
 localStorage.setItem('analysisResults', '');
 
 const FaceRead = () => {
+  // State variables
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedColor, setSelectedColor] = useState(null);
   const [skinColor, setSkinColor] = useState('#000000');
@@ -16,13 +16,15 @@ const FaceRead = () => {
   const [analysisResults, setAnalysisResults] = useState([]);
   const askQuestion = useOpenAI();
 
+  // Handlers
   const handleImageUpload = () => {
-    // once user uploads new image, reset all buttons to black again
+    // Reset color buttons
     setSkinColor('#000000');
     setHairColor('#000000');
     setEyeColor('#000000');
     setLipColor('#000000');
 
+    // Create file input
     const fileInput = document.createElement('input');
     fileInput.setAttribute('type', 'file');
     fileInput.setAttribute('accept', 'image/*');
@@ -72,6 +74,7 @@ const FaceRead = () => {
         break;
       case 'lip':
         setLipColor(hexColor);
+        break;
       default:
         break;
     }
@@ -80,6 +83,18 @@ const FaceRead = () => {
     setBorderStyle('none');
   };
 
+  const handleAnalyze = async () => {
+    try {
+      const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
+      console.log(responses);
+      // Save analysisResults to localStorage
+      localStorage.setItem('analysisResults', JSON.stringify(responses));
+    } catch (error) {
+      console.error('Error analyzing colors:', error);
+    }
+  };
+
+  // Helper functions
   const rgbToHex = (r, g, b) => {
     return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
   };
@@ -91,124 +106,53 @@ const FaceRead = () => {
 
     let luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
 
-    // black text for light colors, and white for dark colors
+    // Black text for light colors, and white for dark colors
     return luminance > 0.5 ? '#000000' : '#ffffff';
   };
 
-
-    // const handleAnalyze = async () => {
-    //     try {
-    //     const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
-    //     console.log(responses);
-    //     setAnalysisResults(responses);
-    //     } catch (error) {
-    //     console.error('Error analyzing colors:', error);
-    //     }
-    // };
-
-    const handleAnalyze = async () => {
-        try {
-          const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
-          console.log(responses);
-          // Save analysisResults to localStorage
-          localStorage.setItem('analysisResults', JSON.stringify(responses));
-        } catch (error) {
-          console.error('Error analyzing colors:', error);
-        }
-      };
-
+  // JSX rendering
   return (
-    <div>
-      <button onClick={handleImageUpload}>Upload Image</button>
+    <div style={{ fontFamily: 'Arial, sans-serif', textAlign: 'center' }}>
+      <button onClick={handleImageUpload} style={{ marginBottom: '20px', padding: '10px 20px', backgroundColor: '#000', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Upload Image</button>
       {imagePreview && (
         <div>
           <h3>Selected Image:</h3>
           <img
             src={imagePreview}
             alt="Uploaded"
-            style={{ maxWidth: '100%', maxHeight: '300px', cursor: selectedColor ? 'crosshair' : 'auto' }}
+            style={{ maxWidth: '100%', maxHeight: '500px', cursor: selectedColor ? 'crosshair' : 'auto', marginBottom: '20px' }}
             onClick={handleImageClick}
           />
 
-          {/* instructions on how to choose skin, hair, eye, and lip colors */}
-          <div style={{ marginTop: '10px' }}>
-            <p> Click each button and click on the corresponding body part in the photo to color pick. </p>
+          {/* Instructions */}
+          <p style={{ marginBottom: '10px' }}>Click each button and click on the corresponding body part in the photo to pick colors.</p>
+
+          {/* Color selection buttons */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+            {['skin', 'hair', 'eye', 'lip'].map((part) => (
+              <div key={part} style={{ marginRight: '10px' }}>
+                <button
+                  className="color-button"
+                  style={{
+                    height: '40px',
+                    width: '120px',
+                    backgroundColor: eval(`${part}Color`),
+                    border: selectedColor === part ? borderStyle : 'none',
+                    fontWeight: selectedColor === part ? 'bold' : 'normal',
+                    color: getContrastColor(eval(`${part}Color`)),
+                    borderRadius: '5px',
+                    fontSize: '105%',
+                    cursor: 'pointer'
+                  }}
+                  onClick={() => handleColorSelection(part)}
+                >
+                  {part.charAt(0).toUpperCase() + part.slice(1)} Color
+                </button>
+              </div>
+            ))}
           </div>
 
-          {/* buttons to choose skin, hair, eye, and lip colors */}
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <div>
-              <button
-                className="color-button"
-                style={{
-                  height: '30px',
-                  width: '150px',
-                  backgroundColor: skinColor,
-                  border: selectedColor === 'skin' ? borderStyle : 'none',
-                  fontWeight: selectedColor === 'skin' ? 'bold' : 'normal',
-                  color: getContrastColor(skinColor)
-                }}
-                onClick={() => handleColorSelection('skin')}
-              >
-                Skin Color
-              </button>
-              <span style={{ marginLeft: '10px' }}>{skinColor}</span>
-            </div>
-            <div>
-              <button
-                className="color-button"
-                style={{
-                  height: '30px',
-                  width: '150px',
-                  backgroundColor: hairColor,
-                  border: selectedColor === 'hair' ? borderStyle : 'none',
-                  fontWeight: selectedColor === 'hair' ? 'bold' : 'normal',
-                  color: getContrastColor(hairColor)
-                }}
-                onClick={() => handleColorSelection('hair')}
-              >
-                Hair Color
-              </button>
-              <span style={{ marginLeft: '10px' }}>{hairColor}</span>
-            </div>
-            <div>
-              <button
-                className="color-button"
-                style={{
-                  height: '30px',
-                  width: '150px',
-                  backgroundColor: eyeColor,
-                  border: selectedColor === 'eye' ? borderStyle : 'none',
-                  fontWeight: selectedColor === 'eye' ? 'bold' : 'normal',
-                  color: getContrastColor(eyeColor)
-                }}
-                onClick={() => handleColorSelection('eye')}
-              >
-                Eye Color
-              </button>
-              <span style={{ marginLeft: '10px' }}>{eyeColor}</span>
-            </div>
-            <div>
-              <button
-                className="color-button"
-                style={{
-                  height: '30px',
-                  width: '150px',
-                  backgroundColor: lipColor,
-                  border: selectedColor === 'lip' ? borderStyle : 'none',
-                  fontWeight: selectedColor === 'lip' ? 'bold' : 'normal',
-                  color: getContrastColor(lipColor)
-                }}
-                onClick={() => handleColorSelection('lip')}
-              >
-                Lip Color
-              </button>
-              <span style={{ marginLeft: '10px' }}>{lipColor}</span>
-            </div>
-          </div>
-
-          <button onClick={handleAnalyze} style={{ marginTop: '30px', backgroundColor: "#000000", color: "#ffffff", height: "50px", width: "250px"}}>Analyze</button>
-          {/* <ColorAnalysis /> */}
+          <button onClick={handleAnalyze} style={{ fontSize: '105%', backgroundColor: "#000000", color: "#ffffff", height: "40px", width: "200px", border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Analyze</button>
         </div>
       )}
     </div>

@@ -4,8 +4,6 @@ const useOpenAI = () => {
     const askQuestion = async (skinColor, hairColor, eyeColor, lipColor) => {
         try {
             // Initialize the OpenAI API with your API key
-            // const openai = new OpenAI("key");
-
             const openai = new OpenAI({
                 organization: 'org-x7LE1EOortseNW98HPCIMzye', 
                 apiKey: process.env.REACT_APP_OPENAI_API_KEY,

@@ -6,15 +6,15 @@ const useOpenAI = () => {
             // Initialize the OpenAI API with your API key
             const openai = new OpenAI({
                 organization: 'org-x7LE1EOortseNW98HPCIMzye', 
-                apiKey: 'INSERT_API_KEY',
+                apiKey: 'PLACEHOLDER',
                 dangerouslyAllowBrowser: true,
             });
 
             // Questions
             const questions = [
-                "Based on my complexion with ${skinColor} skin, ${hairColor} hair, ${eyeColor} eyes, and ${lipColor} lips, which season best describes my seasonal color palette? Sum it up in two words. ex. Warm Autumn",
-"Could you provide me with the top 5 colors to wear that complement my appearance? Please list them in hexadecimal format like this: #000000, #000000, #000000 , #000000, #000000 . Exclude any additional information.",
-"What are the least flattering colors for me to wear? I'd like to avoid them. Can you list the bottom 5 colors in hexadecimal format like the following: #000000, #000000, #000000 , #000000, #000000 . Omit any other details."
+                `Based on my complexion with ${skinColor} skin, ${hairColor} hair, ${eyeColor} eyes, and ${lipColor} lips, which season best describes my seasonal color palette? Sum it up in two words. ex. Warm Autumn`,
+        "Give me the top 5 colors that complement my skin, hair, eye, and lip colors? Please list them in hexadecimal format, separated by commas, like this: hex1, hex2, hex3, hex4, hex5. Exclude any additional information.",
+        "Give me the worst 5 colors based on my skin, hair, eye, and lip colors? Please list them in hexadecimal format, separated by commas, like this: hex1, hex2, hex3, hex4, hex5. Exclude any additional information."
             ];
             console.log('skin color: ', skinColor);
             console.log('hair color: ', hairColor);

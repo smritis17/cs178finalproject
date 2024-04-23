@@ -8,15 +8,16 @@ const useOpenAI = () => {
 
             const openai = new OpenAI({
                 organization: 'org-x7LE1EOortseNW98HPCIMzye', 
-                apiKey: 'INSERT_API_KEY',
+                apiKey: '# ADD API KEY',
                 dangerouslyAllowBrowser: true,
             });
 
             // Questions
             const questions = [
-                "Based on my complexion with ${skinColor} skin, ${hairColor} hair, ${eyeColor} eyes, and ${lipColor} lips, which season best describes my seasonal color palette? Sum it up in two words. ex. Warm Autumn",
-"Could you provide me with the top 5 colors to wear that complement my appearance? Please list them in hexadecimal format like this: #000000, #000000, #000000 , #000000, #000000 . Exclude any additional information.",
-"What are the least flattering colors for me to wear? I'd like to avoid them. Can you list the bottom 5 colors in hexadecimal format like the following: #000000, #000000, #000000 , #000000, #000000 . Omit any other details."
+                `Based on my complexion with ${skinColor} skin, ${hairColor} hair, ${eyeColor} eyes, and ${lipColor} lips, which season best describes my seasonal color palette in 2 words (ex. Warm Autumn)? why is this my seasonal color? 
+                Based on my seasonal color palette, could you provide me with the top 5 clothing colors to wear that enhance my appearance? Please list them in hexadecimal format like this: '[#000000, #000000, #000000 , #000000, #000000]' .
+                Based on my seasonal color palette, what are the least flattering clothing colors (no gray) for me to wear? I'd like to avoid them. Can you list the bottom 5 colors in hexadecimal format like the following: '#000000, '[#000000, #000000 , #000000, #000000']' . Omit any other details
+                Separate the answer to the four questions in an array structure`
             ];
             console.log('skin color: ', skinColor);
             console.log('hair color: ', hairColor);
@@ -31,7 +32,7 @@ const useOpenAI = () => {
                 const response = await openai.chat.completions.create({
                     model: 'gpt-3.5-turbo',
                     messages: [{role: 'user', content: question}],
-                    max_tokens: 50
+                    max_tokens: 500
                 });
                 console.log(response.choices[0].message.content.trim());
 

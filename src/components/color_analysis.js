@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { CirclePicker, SketchPicker } from 'react-color';
 
 const ColorAnalysis = () => {
   const [analysisResults, setAnalysisResults] = useState([]);
@@ -18,7 +17,7 @@ const ColorAnalysis = () => {
       if (storedResults) {
         setAnalysisResults(JSON.parse(storedResults));
       }
-    }, 1000);
+    }, 3000);
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);
@@ -30,15 +29,17 @@ const ColorAnalysis = () => {
   {analysisResults.length === 0 ? (
     <p>No analysis results found.</p>
   ) : (
+    
     <div>
       <div style={{ marginBottom: '20px' }}>
-      <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Your seasonal color is: {analysisResults[0]}</h3>
-      <p> To learn more about this, check out [insert link]</p>
+      <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Your seasonal color is: {analysis[0]}</h3>
+      <p> {analysis[1]}</p>
+      <p> To learn more about your seasonal analysis, check out <a href="https://indigotones.com/pages/12-seasonal-tones">here</a></p>
       <br />
         <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Colors You'll Look Good In</h3>
         <br />
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-          {analysisResults[1].split(', ').map((color, index) => (
+          {analysis[2].map((color, index) => (
             <div
               key={index}
               style={{
@@ -66,7 +67,7 @@ const ColorAnalysis = () => {
                     fontWeight: 'bold',
                   }}
                 >
-                  {color}
+                  {analysis[4][index]}
                 </p>
               </div>
             </div>
@@ -78,7 +79,7 @@ const ColorAnalysis = () => {
         <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Colors You Should Avoid</h3>
         <br/>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-          {analysisResults[2].split(', ').map((color, index) => (
+          {analysis[3].map((color, index) => (
             <div
               key={index}
               style={{
@@ -106,7 +107,7 @@ const ColorAnalysis = () => {
                     fontWeight: 'bold',
                   }}
                 >
-                  {color}
+                  {analysis[5][index]}
                 </p>
               </div>
             </div>

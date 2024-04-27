@@ -46,3 +46,9 @@
   flex: 1;
   padding: 20px;
 }
+
+#imageSection {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+}

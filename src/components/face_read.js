@@ -14,6 +14,7 @@ const FaceRead = () => {
   const [lipColor, setLipColor] = useState('#000000');
   const [borderStyle, setBorderStyle] = useState('2px solid black');
   const [analysisResults, setAnalysisResults] = useState([]);
+  const [loading, setLoading] = useState(false);
   const askQuestion = useOpenAI();
 
   // Handlers
@@ -85,12 +86,13 @@ const FaceRead = () => {
 
   const handleAnalyze = async () => {
     try {
+      setLoading(true); // Set loading to true when analyzing
       const responses = await askQuestion(skinColor, hairColor, eyeColor, lipColor);
-      console.log(responses);
-      // Save analysisResults to localStorage
       localStorage.setItem('analysisResults', JSON.stringify(responses));
     } catch (error) {
       console.error('Error analyzing colors:', error);
+    } finally {
+      setLoading(false); // Set loading to false regardless of success or failure
     }
   };
 
@@ -152,7 +154,16 @@ const FaceRead = () => {
             ))}
           </div>
 
-          <button onClick={handleAnalyze} style={{ fontSize: '105%', backgroundColor: "#000000", color: "#ffffff", height: "40px", width: "200px", border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Analyze</button>
+          {/* Display loading GIF if loading is true */}
+          {loading && (
+            <div style={{ marginBottom: '20px' }}>
+              <img src="https://i.redd.it/kgrl0g2yg3y51.gif" style={{ width: '50%', height: '50%' }} alt="Loading..." />
+              <p style={{ marginTop: '5px', fontSize: '18px', fontWeight: 'bold' }}>Loading...</p>
+            </div>
+          )}
+          {!loading && (
+            <button onClick={handleAnalyze} style={{ fontSize: '105%', backgroundColor: "#000000", color: "#ffffff", height: "40px", width: "200px", border: 'none', borderRadius: '5px', cursor: 'pointer' }}>Analyze</button>
+          )}
         </div>
       )}
     </div>

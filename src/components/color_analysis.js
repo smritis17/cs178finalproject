@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CirclePicker, SketchPicker } from 'react-color';
 
 const ColorAnalysis = () => {
   const [analysisResults, setAnalysisResults] = useState([]);
@@ -29,17 +30,15 @@ const ColorAnalysis = () => {
   {analysisResults.length === 0 ? (
     <p>No analysis results found.</p>
   ) : (
-    
     <div>
       <div style={{ marginBottom: '20px' }}>
-      <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Your seasonal color is: {analysis[0]}</h3>
-      <p> {analysis[1]}</p>
+      <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Your seasonal color is: {analysisResults[0]}</h3>
       <p> To learn more about this, check out [insert link]</p>
       <br />
         <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Colors You'll Look Good In</h3>
         <br />
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-          {analysis[2].map((color, index) => (
+          {analysisResults[1].split(', ').map((color, index) => (
             <div
               key={index}
               style={{
@@ -79,7 +78,7 @@ const ColorAnalysis = () => {
         <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Colors You Should Avoid</h3>
         <br/>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-          {analysis[3].map((color, index) => (
+          {analysisResults[2].split(', ').map((color, index) => (
             <div
               key={index}
               style={{

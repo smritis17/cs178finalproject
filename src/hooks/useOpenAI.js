@@ -1,23 +1,28 @@
 import OpenAI from 'openai';
 
 const useOpenAI = () => {
-    const askQuestion = async (skinColor, hairColor, eyeColor) => {
+    const askQuestion = async (skinColor, hairColor, eyeColor, lipColor) => {
         try {
             // Initialize the OpenAI API with your API key
             // const openai = new OpenAI("key");
 
             const openai = new OpenAI({
-                organization: 'ORG_KEY_HERE', 
-                apiKey: 'API_KEY_HERE',
+                organization: 'org-x7LE1EOortseNW98HPCIMzye', 
+                apiKey: '# ADD API KEY',
                 dangerouslyAllowBrowser: true,
             });
 
             // Questions
             const questions = [
-                `Given that I have ${skinColor} skin color, ${hairColor} hair color, and ${eyeColor} eye color, what seasonal color am I?`,
-                "What are the top 5 colors that suit me best and give me those hex colors in a list format ex. {color 1, color 2, color 3, etc}",
-                "What are the worst 5 colors that I should avoid and give me those hex colors in a list format ex. {color1, color2, color3, etc}"
+                `Based on my complexion with ${skinColor} skin, ${hairColor} hair, ${eyeColor} eyes, and ${lipColor} lips, which season best describes my seasonal color palette in 2 words (ex. Warm Autumn)? why is this my seasonal color? 
+                Based on my seasonal color palette, could you provide me with the top 5 clothing colors to wear that enhance my appearance? Please list them in hexadecimal format like this: '[#000000, #000000, #000000 , #000000, #000000]' .
+                Based on my seasonal color palette, what are the least flattering clothing colors (no gray) for me to wear? I'd like to avoid them. Can you list the bottom 5 colors in hexadecimal format like the following: '#000000, '[#000000, #000000 , #000000, #000000']' . Omit any other details
+                Separate the answer to the four questions in an array structure`
             ];
+            console.log('skin color: ', skinColor);
+            console.log('hair color: ', hairColor);
+            console.log('eye color: ', eyeColor);
+            console.log('lip color: ', lipColor);
 
             // Responses
             const responses = [];
@@ -27,7 +32,7 @@ const useOpenAI = () => {
                 const response = await openai.chat.completions.create({
                     model: 'gpt-3.5-turbo',
                     messages: [{role: 'user', content: question}],
-                    max_tokens: 50
+                    max_tokens: 500
                 });
                 console.log(response.choices[0].message.content.trim());
 

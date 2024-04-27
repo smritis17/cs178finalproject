@@ -6,7 +6,9 @@ function App() {
   return (
     <div className="App">
       <div className='app-title'>
-        <h1 className="m-4 text-center">Color Analysis</h1>
+        <h1 className="m-4 text-center">Discover Your Personal Color Palette</h1>
+        <p style={{margin: '100px', fontSize: "110%"}}> Discover your perfect palette based on your skin tone, hair color, eye color, and lip tone. Find the season that 
+          enhances your natural features. Explore the top 5 complementary colors to elevate your style, while steering clear of the bottom 5 least flattering shades. </p>
       </div>
       <div className="flex-container">
         <div className="column section">
@@ -16,7 +18,7 @@ function App() {
           </div>
         </div>
         <div className="column section">
-          <div className="routes-title text-left">Here's Your Color Analysis</div>
+          {/* <div className="routes-title text-left">Here's Your Color Analysis</div> */}
           <Analysis />
         </div>
       </div>

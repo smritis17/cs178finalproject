@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import useOpenAI from '../hooks/useOpenAI';
-import loadingSpinner from './loading.gif';
 
 // Initialize local storage JSON to empty
 localStorage.setItem('analysisResults', '');

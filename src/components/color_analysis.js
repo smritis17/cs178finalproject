@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { CirclePicker, SketchPicker } from 'react-color';
-import loadingSpinner from './loading.gif';
 
 const ColorAnalysis = () => {
   const [analysisResults, setAnalysisResults] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -18,18 +16,10 @@ const ColorAnalysis = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const renderLoadingSpinner = () => (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100px' }}>
-      <img src={loadingSpinner} alt="Loading..." />
-    </div>
-  );
-
   return (
     <div style={{ marginLeft: '20px', fontFamily: 'Arial, sans-serif' }}>
       <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '10px' }}>Analysis Results</h3>
-      {loading ? (
-        renderLoadingSpinner()
-      ) : analysisResults.length === 0 ? (
+      {analysisResults.length === 0 ? (
         <p>No analysis results found.</p>
       ) : (
         <div>

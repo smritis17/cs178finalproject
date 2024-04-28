@@ -6,7 +6,7 @@ const useOpenAI = () => {
             // Initialize the OpenAI API with your API key
             const openai = new OpenAI({
                 organization: 'org-x7LE1EOortseNW98HPCIMzye', 
-                apiKey: 'sk-proj-nrkbShXKrmBdrbyDOCCAT3BlbkFJ8dk06OWvUNRqOitbTeT7',
+                apiKey: 'API_KEY_FILL',
                 dangerouslyAllowBrowser: true,
             });
 

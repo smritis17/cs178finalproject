@@ -15,6 +15,8 @@ const FaceRead = () => {
   const [borderStyle, setBorderStyle] = useState('2px solid black');
   const [analysisResults, setAnalysisResults] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [tipText, setTipText] = useState('');
+
   const askQuestion = useOpenAI();
 
   // Handlers
@@ -49,6 +51,25 @@ const FaceRead = () => {
   const handleColorSelection = (color) => {
     setSelectedColor(color);
     setBorderStyle('2px solid black');
+
+    // Set tip text based on selected color
+    switch (color) {
+      case 'skin':
+        setTipText('Tip: Picking a color from your approximately the middle of your forehead will provide the best results');
+        break;
+      case 'hair':
+        setTipText('Tip: Picking a color of your natural hair color and avoiding the bright light will provide the best results');
+        break;
+      case 'eye':
+        setTipText('Tip: Make sure not to choose your pupil color when finding this color');
+        break;
+      case 'lip':
+        setTipText('Tip: Picking a color from your bottom lip will provide the best results');
+        break;
+      default:
+        setTipText('');
+        break;
+    }
   };
 
   const handleImageClick = (event) => {
@@ -153,6 +174,11 @@ const FaceRead = () => {
               </div>
             ))}
           </div>
+
+          {/* Tip */}
+          {tipText && (
+            <p style={{ marginBottom: '10px' }}>{tipText}</p>
+          )}
 
           {/* Display loading GIF if loading is true */}
           {loading && (

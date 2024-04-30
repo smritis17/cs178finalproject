@@ -27,8 +27,8 @@ const ColorAnalysis = () => {
           <div style={{ marginBottom: '20px' }}>
             <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>Your seasonal color is: {analysis[0]}</h3>
             <div style={{ backgroundColor: '#eaeaea', padding: '10px', borderRadius: '5px', marginBottom: '10px' }}>
-              <p style={{ margin: 0 }}>{analysis[1]}Keep in mind that these results are based on the photo you've chosen to use. Changes in lighting, highlights, and shadows and location of the skin tones in the image can affect these results.</p>
-              <p style={{ margin: '10px 0 0' }}>To learn more about your seasonal analysis, check out <a href="https://indigotones.com/pages/12-seasonal-tones">here</a></p>
+              <p style={{ margin: 0 }}>{analysis[1]}Keep in mind that these results are based on the photo and skin tone locations you've chosen to use. Changes in lighting, highlights, and shadows and location of the skin tones in the image can affect these results.</p>
+              <p style={{ margin: '10px 0 0' }}>To learn more about your seasonal analysis, check out <a href="https://indigotones.com/pages/12-seasonal-tones" target='_blank'>here</a></p>
             </div>
             <h3 style={{ fontSize: '1.2rem', marginBottom: '5px' }}>These Are Some Colors We Think You'll Look Good In</h3>
             <br />

@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 
+// Computation of OpenAI API call
 const useOpenAI = () => {
     const askQuestion = async (skinColor, hairColor, eyeColor, lipColor) => {
         try {

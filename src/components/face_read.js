@@ -13,13 +13,12 @@ const FaceRead = () => {
   const [eyeColor, setEyeColor] = useState('#000000');
   const [lipColor, setLipColor] = useState('#000000');
   const [borderStyle, setBorderStyle] = useState('2px solid black');
-  const [analysisResults, setAnalysisResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tipText, setTipText] = useState('');
 
   const askQuestion = useOpenAI();
 
-  // Handlers
+  // Concept: uploaded image
   const handleImageUpload = () => {
     // Reset color buttons
     setSkinColor('#000000');
@@ -48,6 +47,7 @@ const FaceRead = () => {
     fileInput.click();
   };
 
+  // Concept: color picker
   const handleColorSelection = (color) => {
     setSelectedColor(color);
     setBorderStyle('2px solid black');
@@ -105,6 +105,7 @@ const FaceRead = () => {
     setBorderStyle('none');
   };
 
+  // Store OpenAI API call responses in a JSON file
   const handleAnalyze = async () => {
     try {
       setLoading(true); // Set loading to true when analyzing

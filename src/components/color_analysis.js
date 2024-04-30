@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+// Displays color palette (concept)
 const ColorAnalysis = () => {
   const [analysisResults, setAnalysisResults] = useState([]);
   const analysis_line = analysisResults[0];
